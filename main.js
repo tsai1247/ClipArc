@@ -22,6 +22,10 @@ let pollInterval = null;
 let hideTimer = null;
 let isPaused = false;
 
+function updateAutoLaunch(enabled) {
+  app.setLoginItemSettings({ openAtLogin: enabled, path: process.execPath });
+}
+
 function createTray() {
   const iconPath = path.join(__dirname, "assets", "icon.png");
   const icon = nativeImage.createFromPath(iconPath);
@@ -38,11 +42,11 @@ function createTray() {
       },
     },
     {
-      label: "Start with Windows",
+      label: "Launch at Windows startup",
       type: "checkbox",
       checked: app.getLoginItemSettings().openAtLogin,
       click: (menuItem) => {
-        app.setLoginItemSettings({ openAtLogin: menuItem.checked, path: process.execPath });
+        updateAutoLaunch(menuItem.checked);
       },
     },
     { type: "separator" },
@@ -232,7 +236,8 @@ function createApp() {
     }
   });
 
-  app.setLoginItemSettings({ openAtLogin: true, path: process.execPath });
+  const loginSettings = app.getLoginItemSettings();
+  updateAutoLaunch(loginSettings.openAtLogin);
   createTray();
   ensureOverlay();
   startClipboardPolling();

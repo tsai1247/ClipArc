@@ -3,7 +3,7 @@
 Windows tray app that watches the clipboard and shows a playful toss-to-cursor animation whenever you press `Ctrl+C` in any app. Ships as a Windows installer, starts with Windows, and stays in the system tray.
 
 ### Features
-- Always-on tray app with `Start with Windows` toggle in the tray menu.
+- Always-on tray app with `Launch at Windows startup` toggle in the tray menu.
 - Polls the clipboard (text or image) to detect new copies and shows a mini animation near the cursor.
 - Frameless, click-through overlay so it never steals focus.
 - Packaged with `electron-builder` → NSIS installer (desktop + start menu shortcuts).
@@ -21,7 +21,7 @@ npm run build
 The output NSIS installer will be in `dist/`. Run it to install like a normal Windows app; the installer creates shortcuts and keeps the app running from the tray.
 
 ### Autostart
-- The app enables autostart after installation via `app.setLoginItemSettings` and exposes a `Start with Windows` checkbox in the tray menu so users can toggle it without reinstalling.
+- The app enables autostart after installation via `app.setLoginItemSettings` and exposes a `Launch at Windows startup` checkbox in the tray menu so users can toggle it without reinstalling.
 
 ### How it works
 - `main.js` creates a tray icon, keeps a hidden overlay window alive, and polls the clipboard every ~500ms. When new text or image data appears, it positions the overlay near the mouse cursor and triggers a renderer animation.
