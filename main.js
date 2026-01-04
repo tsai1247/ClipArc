@@ -95,19 +95,81 @@ function hashImage(image) {
   }
 }
 
-function buildSignature(text, image) {
+function hashBuffer(buffer) {
+  if (!buffer || buffer.length === 0) return "";
+  try {
+    return crypto.createHash("sha1").update(buffer).digest("hex");
+  } catch (err) {
+    return "";
+  }
+}
+
+function buildSignature(text, image, filePaths = [], fileBufferSig = "") {
   const normalizedText = text?.trim() || "";
   const textSig = `${normalizedText.length}:${normalizedText.slice(0, 32)}`;
   const imageSig = hashImage(image);
-  return `${textSig}::${imageSig}`;
+  const filesSig = filePaths.length ? filePaths.map((p) => p.toLowerCase()).join("|") : "";
+  return `${textSig}::${imageSig}::${filesSig}::${fileBufferSig}`;
+}
+
+function readFilePathsFromClipboard(availableFormats = []) {
+  const formats = availableFormats.length ? availableFormats : clipboard.availableFormats();
+  const formatsLower = formats.map((f) => f.toLowerCase());
+  const hasFileFormat = formatsLower.some(
+    (f) => f.includes("filename") || f.includes("filedrop") || f.includes("text/uri-list")
+  );
+
+  if (!hasFileFormat) return { paths: [], rawSignature: "" };
+
+  const buffers = [];
+  for (const format of ["FileNameW", "FileName"]) {
+    try {
+      const buffer = clipboard.readBuffer(format);
+      if (buffer && buffer.length) {
+        buffers.push(buffer);
+      }
+    } catch (err) {
+      // ignore
+    }
+  }
+
+  let rawSignature = "";
+  if (buffers.length) {
+    rawSignature = hashBuffer(buffers[0]);
+  }
+
+  let paths = [];
+  for (const buffer of buffers) {
+    const decoded = buffer.toString("ucs2");
+    const parsed = decoded.split("\u0000").filter(Boolean);
+    paths = paths.concat(parsed);
+  }
+
+  if (!paths.length) {
+    try {
+      const uriList = clipboard.read("text/uri-list");
+      if (uriList) {
+        const uris = uriList.split(/\r?\n/).filter((line) => line.startsWith("file:///"));
+        const parsedUris = uris.map((uri) => decodeURI(uri.replace("file:///", "")));
+        paths = paths.concat(parsedUris);
+      }
+    } catch (err) {
+      // ignore
+    }
+  }
+
+  const uniquePaths = [...new Set(paths)];
+
+  return { paths: uniquePaths, rawSignature };
 }
 
 function startClipboardPolling() {
   const win = ensureOverlay();
+  const initialFormats = clipboard.availableFormats();
   let lastText = clipboard.readText();
-  const initialFormats = clipboard.availableFormats().join("|");
-  let lastImage = initialFormats.includes("image") ? clipboard.readImage() : null;
-  lastClipboardSignature = buildSignature(lastText, lastImage);
+  let lastImage = initialFormats.some((f) => f.toLowerCase().includes("image")) ? clipboard.readImage() : null;
+  const { paths: lastFiles, rawSignature: lastFileSig } = readFilePathsFromClipboard(initialFormats);
+  lastClipboardSignature = buildSignature(lastText, lastImage, lastFiles, lastFileSig);
 
   pollInterval = setInterval(() => {
     if (isPaused) return;
@@ -116,17 +178,31 @@ function startClipboardPolling() {
     const hasImageFormat = formats.some((f) => f.toLowerCase().includes("image"));
 
     const currentText = clipboard.readText();
+    const { paths: currentFilePaths, rawSignature: fileBufferSig } = readFilePathsFromClipboard(formats);
     const currentImage = hasImageFormat ? clipboard.readImage() : null;
-    const signature = buildSignature(currentText, currentImage);
+    const signature = buildSignature(currentText, currentImage, currentFilePaths, fileBufferSig);
 
     if (signature && signature !== lastClipboardSignature) {
       lastClipboardSignature = signature;
       const isImage = currentImage && !currentImage.isEmpty();
-      const content = isImage ? currentImage.toDataURL() : currentText;
-      const payload = {
-        type: isImage ? "image" : "text",
-        content,
-      };
+      let payload;
+
+      if (currentFilePaths.length > 0) {
+        payload = {
+          type: "files",
+          content: currentFilePaths.map((filePath) => path.basename(filePath)),
+        };
+      } else if (isImage) {
+        payload = {
+          type: "image",
+          content: currentImage.toDataURL(),
+        };
+      } else {
+        payload = {
+          type: "text",
+          content: currentText,
+        };
+      }
 
       const { x, y } = screen.getCursorScreenPoint();
       const bounds = { x, y };

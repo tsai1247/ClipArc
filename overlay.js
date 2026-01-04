@@ -24,7 +24,7 @@ function truncateText(text, maxLength = 50, maxLines = 5) {
     wasTruncated = true;
   }
 
-  return wasTruncated ? `${truncated}…` : truncated;
+  return wasTruncated ? `${truncated}...` : truncated;
 }
 
 function easeInOutQuad(t) {
@@ -87,6 +87,17 @@ function spawnItem(payload) {
     img.src = payload.content;
     img.alt = "Copied";
     node.appendChild(img);
+  } else if (payload.type === "files") {
+    node.classList.add("text");
+    const names = Array.isArray(payload.content) ? payload.content : [payload.content];
+    const summary =
+      names.length > 1 && names[0] ? `${names[0]} +${names.length - 1} more` : names[0] || "File copied";
+    const text = document.createElement("div");
+    text.textContent = truncateText(summary);
+    const hint = document.createElement("span");
+    hint.textContent = names.length > 1 ? "Files copied" : "File copied";
+    hint.className = "hint";
+    node.append(text, hint);
   } else {
     node.classList.add("text");
     const text = document.createElement("div");
