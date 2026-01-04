@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visualized Ctrl+C</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+      }
+      body {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        pointer-events: none;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .clip-item {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
+        transform-origin: center;
+        max-width: 240px;
+        max-height: 200px;
+      }
+      .clip-item.text {
+        background: linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(59, 130, 246, 0.9));
+        color: #f9fbff;
+        padding: 14px 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
+        font-size: 14px;
+        line-height: 1.4;
+      }
+      .clip-item.text .hint {
+        display: block;
+        font-size: 11px;
+        opacity: 0.8;
+        margin-top: 6px;
+      }
+      .clip-item.image img {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.6);
+      }
+      .folder {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 64px;
+        height: 48px;
+        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2Y1OWUwYiI+PHBhdGggZD0iTTEwIDRINGMtMS4xIDAtMiAuOS0yIDJ2MTJjMCAxLjEuOSAyIDIgMmgxNmMxLjExIDAgMi0uODkgMi0yVjhjMC0xLjExLS44OS0yLTItMmgtOGwtMi0yWiIvPjwvc3ZnPg==")
+          center center / contain no-repeat;
+        filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.2));
+        transform: translate(
+            calc(-50% + var(--folder-x, 100px)),
+            calc(-50% + var(--folder-y, 10px))
+          );
+        opacity: 0.95;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="overlay.js"></script>
+  </body>
+</html>

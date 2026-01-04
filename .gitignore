@@ -1,0 +1,8 @@
+node_modules/
+dist/
+C:/electron-builder-out/
+.DS_Store
+thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
