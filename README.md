@@ -1,4 +1,4 @@
-## Visualized Ctrl+C
+## ClipArc
 
 Windows tray app that watches the clipboard and shows a playful toss-to-cursor animation whenever you press `Ctrl+C` in any app. Ships as a Windows installer, starts with Windows, and stays in the system tray.
 

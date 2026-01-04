@@ -1,7 +1,7 @@
 {
-  "name": "visualized-ctrl-c",
+  "name": "cliparc",
   "version": "0.1.0",
-  "description": "Tray app that visualizes Ctrl+C clipboard captures with a playful animation.",
+  "description": "Tray app that visualizes clipboard captures with a playful animation.",
   "main": "main.js",
   "author": "",
   "license": "MIT",
@@ -16,8 +16,8 @@
     "electron-builder": "^24.13.3"
   },
   "build": {
-    "appId": "com.example.visualizedctrlc",
-    "productName": "Visualized Ctrl C",
+    "appId": "com.example.cliparc",
+    "productName": "ClipArc",
     "icon": "assets/icon.png",
     "directories": {
       "output": "C:/electron-builder-out",
@@ -41,8 +41,8 @@
     "win": {
       "sign": false,
       "signingHashAlgorithms": [],
-      "executableName": "VisualizedCtrlC",
-      "artifactName": "Visualized-Ctrl-C-${version}.${ext}"
+      "executableName": "ClipArc",
+      "artifactName": "ClipArc-${version}.${ext}"
     }
   }
 }

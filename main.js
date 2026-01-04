@@ -26,15 +26,15 @@ function createTray() {
   const iconPath = path.join(__dirname, "assets", "icon.png");
   const icon = nativeImage.createFromPath(iconPath);
   tray = new Tray(icon);
-  const contextMenu = Menu.buildFromTemplate([
-    { label: "Visualized Ctrl+C", enabled: false },
+    const contextMenu = Menu.buildFromTemplate([
+    { label: "ClipArc", enabled: false },
     {
       label: "Pause animation",
       type: "checkbox",
       checked: isPaused,
       click: (menuItem) => {
         isPaused = menuItem.checked;
-        tray.setToolTip(isPaused ? "Visualized Ctrl+C (paused)" : "Visualized Ctrl+C");
+        tray.setToolTip(isPaused ? "ClipArc (paused)" : "ClipArc");
       },
     },
     {
@@ -48,7 +48,7 @@ function createTray() {
     { type: "separator" },
     { label: "Quit", role: "quit" },
   ]);
-  tray.setToolTip("Visualized Ctrl+C");
+  tray.setToolTip("ClipArc");
   tray.setContextMenu(contextMenu);
 }
 
