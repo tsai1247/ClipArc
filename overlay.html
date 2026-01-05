@@ -37,6 +37,10 @@
         max-width: 240px;
         max-height: 200px;
       }
+      .clip-item.image {
+        max-width: none;
+        max-height: none;
+      }
       .clip-item.text {
         background: linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(59, 130, 246, 0.9));
         color: #f9fbff;
@@ -66,7 +70,7 @@
         top: 50%;
         width: 64px;
         height: 48px;
-        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2Y1OWUwYiI+PHBhdGggZD0iTTEwIDRINGMtMS4xIDAtMiAuOS0yIDJ2MTJjMCAxLjEuOSAyIDIgMmgxNmMxLjExIDAgMi0uODkgMi0yVjhjMC0xLjExLS44OS0yLTItMmgtOGwtMi0yWiIvPjwvc3ZnPg==")
+        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iI2Y1OWUwYiIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0xOSwzSDE0LjgyQTMsMyAwIDAsMCAxMiwxQTMsMyAwIDAsMCA5LjE4LDNINUEyLDIgMCAwLDAgMyw1VjIxQTIsMiAwIDAsMCA1LDIzSDE5QTIsMiAwIDAsMCAyMSwyMVY1QTIsMiAwIDAsMCAxOSwzTTEyLDNBMSwxIDAgMCwxIDEzLDRBMSwxIDAgMCwxIDEyLDVBMSwxIDAgMCwxIDExLDRBMSwxIDAgMCwxIDEyLDNNMTksMjFINVY1SDdWN0gxN1Y1SDE5VjIxWiIvPjwvc3ZnPg==")
           center center / contain no-repeat;
         filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.2));
         transform: translate(
@@ -74,6 +78,10 @@
             calc(-50% + var(--folder-y, 10px))
           );
         opacity: 0.95;
+      }
+      .folder.checked {
+        background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHJlY3Qgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0IiByeD0iNCIgZmlsbD0iIzM0ZDM5OSIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0xOSwzSDE0LjgyQTMsMyAwIDAsMCAxMiwxQTMsMyAwIDAsMCA5LjE4LDNINUEyLDIgMCAwLDAgMyw1VjIxQTIsMiAwIDAsMCA1LDIzSDE5QTIsMiAwIDAsMCAyMSwyMVY1QTIsMiAwIDAsMCAxOSwzTTEyLDNBMSwxIDAgMCwxIDEzLDRBMSwxIDAgMCwxIDEyLDVBMSwxIDAgMCwxIDExLDRBMSwxIDAgMCwxIDEyLDNNMTksMjFINVY1SDdWN0gxN1Y1SDE5VjIxWiIvPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik05LDE2LjE3TDQuODMsMTJMMy40MSwxMy40MUw5LDE5TDIxLDdMMTkuNTksNS41OUw5LDE2LjE3WiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTQsLTIpIHNjYWxlKDAuNikiLz48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNOSwxNi4xN0w0LjgzLDEyTDMuNDEsMTMuNDFMOSwxOUwyMSw3TDE5LjU5LDUuNTlMOSwxNi4xN1oiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQsLTIpIHNjYWxlKDAuNikiLz48L3N2Zz4=")
+          center center / contain no-repeat;
       }
     </style>
   </head>
